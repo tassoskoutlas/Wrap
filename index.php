@@ -75,13 +75,18 @@ function wrap($string, $length)
     $lastLine  = false;
 
     // Flag the first pass on the string.
-    if ($start == 1) {
-      $firstLine == true;
+    if ($start == 0) {
+      $firstLine = true;
     }
 
     // Flag the last pass on the string.
     if ($partLength < $length) {
       $lastLine = true;
+    }
+
+    // Trim the last line only of any whitespace.
+    if ($lastLine && !$firstLine) {
+      $part = ltrim($part);
     }
 
     // Handle word splitting.
@@ -91,8 +96,7 @@ function wrap($string, $length)
     if (!$lastLine && $lastChar !== $needle && $numberOfSpaces > 0) {
 
       // Get character ahead of current selection.
-      $ahead = mb_substr($string, $start + $end + 1, 1);
-      echo 'Hello';
+      $ahead = mb_substr($string, $start + $end, 1);
 
       // Look at a character ahead and make sure that it is not a
       // space. Then go back find the position of the last space
@@ -101,7 +105,7 @@ function wrap($string, $length)
       // use $kappa to update pointers accordingly.
       if ($ahead !== $needle) {
         $kappa = mb_strrpos($part, $needle);
-        $part = mb_substr($part, 0, $kappa) . '****';
+        $part = mb_substr($part, 0, $kappa);
         $end = $kappa + 1;
       }
 
@@ -120,24 +124,15 @@ function wrap($string, $length)
         $part = '';
         $end = $delta;
       } else {
-        $part = $new_part . '+++';
+        $part = $new_part;
       }
 
     }
 
-    // If the last character is a space.
-    if (!$lastLine && mb_substr($part, -1) === $needle) {
-
-      $new_part = rtrim($part);
-      $delta = mb_strlen($part) - mb_strlen($new_part);
-
-      if ($delta > 1) {
-        $part = '';
-        $end = (-1) * $delta;
-      } else {
-        $part = $new_part;
-      }
-
+    // If the last character is a space. Then whitespace is split
+    // already.
+    if (!$lastLine && $lastChar  === $needle) {
+      $part = rtrim($part);
     }
 
     // Handle PHP_EOL
@@ -200,7 +195,8 @@ $string = "Alice was beginning to get very tired of sitting by her sister on the
 // Run showcase.
 showcase($string);
 
-//$wrapped = wrap('anew   test     withh    lots of whitespace', 4);
+$one = wrap($string, 60);
+$two = wrap('anew   test     withh    lots of whitespace', 4);
 
 $wrap1 = wrap("    test", 10);
 $wrap2 = wrap('', 5);
@@ -209,3 +205,5 @@ $wrap3 = wrap("test\ntest", 4);
 echo '1. ' .$wrap1 ."\n";
 echo '2. ' .$wrap2 ."\n";
 echo '3. ' .$wrap3 ."\n";
+//echo '4. ' .$one . "\n";
+echo '5. ' .$two . "\n";
