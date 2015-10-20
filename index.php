@@ -24,6 +24,11 @@ function wrap($string, $length)
   $needle = ' ';
   $stringLength = mb_strlen($string);
 
+  // If emtpy return empty.
+  if (empty($string)) {
+    return $wrapped;
+  }
+
   for ($start = 0; $start < $stringLength;) {
 
     // Initialise loop variables.
@@ -111,4 +116,9 @@ function showcase($string) {
 $string = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vel mattis lectus, vitae aliquam nibh. Mauris nec malesuada est, vitae ornare tellus. Aenean vitae ex dui. Donec rutrum sapien ut convallis aliquam. Nam tincidunt pretium ante, nec porttitor sem. Praesent nibh velit, maximus vel tincidunt eu, facilisis id massa. Vivamus a enim vitae sem vulputate facilisis id ut nisi. Aliquam erat volutpat.";
 
 // Run showcase.
-showcase($string);
+//showcase($string);
+
+$wrapped = wrap('', 4);
+
+echo $wrapped;
+
