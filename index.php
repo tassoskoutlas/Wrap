@@ -131,7 +131,7 @@ function wrap($string, $length)
 
     // If the last character is a space. Then whitespace is split
     // already.
-    if (!$lastLine && $lastChar  === $needle) {
+    if (!$lastLine && $lastChar === $needle) {
       $part = rtrim($part);
     }
 
@@ -201,9 +201,10 @@ $two = wrap('anew   test     withh    lots of whitespace', 4);
 $wrap1 = wrap("    test", 10);
 $wrap2 = wrap('', 5);
 $wrap3 = wrap("test\ntest", 4);
+$wrap4 = wrap("test    ", 10);
 
-echo '1. ' .$wrap1 ."\n";
-echo '2. ' .$wrap2 ."\n";
-echo '3. ' .$wrap3 ."\n";
-//echo '4. ' .$one . "\n";
-echo '5. ' .$two . "\n";
+var_dump($wrap1);
+var_dump($wrap2);
+var_dump($wrap3);
+var_dump($two);
+var_dump($wrap4);
